@@ -18,6 +18,7 @@ public:
     void addEdge(std::string src, std::string dst, int wgt);
     void addNode(std::string src);
     Vertices getNeighbors(std::string src);
+    int neighborCount(std::string src);
 };
 
 // Constructor for Graph class object : contains a pointer to a map from strings to Vertices 
@@ -31,6 +32,7 @@ Graph::Graph()
 void Graph::addEdge(std::string src, std::string dst, int wgt)
 {
     graph[src].addNode(dst, wgt);
+    graph[dst].addNode(src, wgt);
 }
 
 /* addNode : String -> Void
@@ -45,6 +47,12 @@ void Graph::addNode(std::string src)
 Vertices Graph::getNeighbors(std::string src)
 {
     return graph[src];
+}
+
+
+int Graph::neighborCount(std::string src)
+{
+    return graph[src].length();
 }
 
 int main()

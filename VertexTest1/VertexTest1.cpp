@@ -9,7 +9,14 @@ namespace VertexTest1
 	TEST_CLASS(VertexTest1)
 	{
 	public:
-		
+
+
+		TEST_METHOD(PopFront1) 
+		{
+			Vertices test = Vertices();
+			test.addNodeBack
+
+		}
 		// 1. Make sure isEmpty holds only for a new instance of Vertices
 		TEST_METHOD(IsEmptyTest1)
 		{
@@ -20,7 +27,7 @@ namespace VertexTest1
 		TEST_METHOD(IsEmptyTest2)
 		{
 			Vertices fresh = Vertices();
-			fresh.addNode("water", 1);
+			fresh.addNodeFront("water", 1);
 			Assert::IsFalse(fresh.isEmpty());
 		}
 
@@ -33,7 +40,7 @@ namespace VertexTest1
 		TEST_METHOD(AddNodeThenPeek)
 		{
 			Vertices fresh = Vertices();
-			fresh.addNode("dog", 1);
+			fresh.addNodeFront("dog", 1);
 			std::string dog = "dog";
 			Assert::AreEqual(dog, fresh.peek());
 			//Assert::IsTrue(fresh.contains("dog"));
@@ -43,7 +50,7 @@ namespace VertexTest1
 		TEST_METHOD(ContainsTest2)
 		{
 			Vertices fresh = Vertices();
-			fresh.addNode("dog", 1);
+			fresh.addNodeFront("dog", 1);
 			std::string dog = "dog";
 			Assert::IsTrue(fresh.contains(dog));
 		}
@@ -51,7 +58,7 @@ namespace VertexTest1
 		TEST_METHOD(ContainsTest3)
 		{
 			Vertices fresh = Vertices();
-			fresh.addNode("dog", 1);
+			fresh.addNodeFront("dog", 1);
 			Assert::IsTrue(fresh.contains("dog"));
 			Assert::IsFalse(fresh.isEmpty());
 			Assert::IsTrue(fresh.contains("dog")); // see if it works a second time 
@@ -67,7 +74,7 @@ namespace VertexTest1
 		TEST_METHOD(LengthTest2)
 		{
 			Vertices fresh = Vertices();
-			fresh.addNode("Seattle", 24);
+			fresh.addNodeFront("Seattle", 24);
 			Assert::AreEqual(fresh.length(), 1);
 		}
 
@@ -75,16 +82,16 @@ namespace VertexTest1
 		TEST_METHOD(LengthTest3)
 		{
 			Vertices fresh = Vertices();
-			fresh.addNode("Seattle", 24);
-			fresh.addNode("Boise", 4);
+			fresh.addNodeFront("Seattle", 24);
+			fresh.addNodeFront("Boise", 4);
 			Assert::AreEqual(2, fresh.length());
 		}
 
 		TEST_METHOD(LengthTest4)
 		{
 			Vertices fresh = Vertices();
-			fresh.addNode("Seattle", 24);
-			fresh.addNode("Boise", 4);
+			fresh.addNodeFront("Seattle", 24);
+			fresh.addNodeFront("Boise", 4);
 			fresh.contains("Seattle");
 			Assert::AreEqual(2, fresh.length());
 		}

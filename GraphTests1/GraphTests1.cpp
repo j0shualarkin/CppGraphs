@@ -30,7 +30,7 @@ namespace GraphTests1
 			Assert::IsTrue(hmm.length() == 1);
 			Assert::IsTrue(hmm.contains(catacombs));
 			Assert::IsFalse(hmm.contains(asylum));
-			// Assert::IsTrue(ds1.getNeighbors(asylum).isEmpty());
+			Assert::IsTrue(ds1.getNeighbors(asylum).isEmpty());
 		}
 	};
 }

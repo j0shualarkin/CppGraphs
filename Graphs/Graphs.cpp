@@ -6,47 +6,50 @@
 #include <unordered_map>
 #include <string>
 
-using namespace std;
-
 class Graph 
 {
+typedef std::unordered_map<std::string, Vertices> EdgeMap;
+
 private:
-    std::unordered_map<string, Vertices> *graph;
+    EdgeMap graph;
 
 public:
-    Graph()
-    {
-        graph = &(std::unordered_map<string, Vertices>{});
-    }
-
-    /* addEdge : String -> String -> Int -> Void
-       adds a vertex with name 'dst' and weight 'wgt' to the neighbors of 'src' */
-    void addEdge(string src, string dst, int wgt)
-    {
-        (*graph)[src].addNode(dst, wgt);
-    }
-
-    /* For adding a node that has no neighbors */
-    void addNode(string src)
-    {
-        (*graph)[src] = Vertices();
-    }
-    
-    /* getNeighbors : String -> [List Vertex] 
-       returns a list of pairs of neighbors and the cost to reach them */
-    Vertices getNeighbors(string src)
-    {
-        return (*graph)[src];
-    }
-
-
-
+    Graph();
+    void addEdge(std::string src, std::string dst, int wgt);
+    void addNode(std::string src);
+    Vertices getNeighbors(std::string src);
 };
 
+// Constructor for Graph class object : contains a pointer to a map from strings to Vertices 
+Graph::Graph() 
+{
+    graph = std::unordered_map<std::string, Vertices>{};
+}
+
+/* addEdge : String -> String -> Int -> Void
+   adds a vertex with name 'dst' and weight 'wgt' to the neighbors of 'src' */
+void Graph::addEdge(std::string src, std::string dst, int wgt)
+{
+    graph[src].addNode(dst, wgt);
+}
+
+/* addNode : String -> Void
+   adds an entry in the map for the node with no neighbors (empty list of vertices) */
+void Graph::addNode(std::string src)
+{
+    graph.insert(EdgeMap::value_type(src, Vertices()));
+}
+
+/* getNeighbors : String -> [List Vertex] 
+   returns a list of pairs of neighbors and the cost to reach them */
+Vertices Graph::getNeighbors(std::string src)
+{
+    return graph[src];
+}
 
 int main()
 {
-    cout << "Hello World! Don't mind me!\n";
+    std::cout << "Hello World! Don't mind me!\n";
     Vertices test = Vertices();
     test.addNode("Sen's Fortress", 12);
     test.show();

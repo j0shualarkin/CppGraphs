@@ -18,12 +18,15 @@ private:
    
 public: // invokable methods on Vertices objects
     Vertices();
-    bool isEmpty();
+    bool isEmpty() const;
     void addNode(std::string name, int wgt); 
     std::string peek();
     bool contains(std::string key); 
     int length();
     void show();
+    template<typename F>
+    void traverse(F &const action); // TODO
+    // void traverse(F const& action);
 }; // end class Vertices 
 
 // Constructor for new list of vertices, initially no elements so set head to be a null pointer
@@ -31,7 +34,7 @@ Vertices::Vertices() { head = nullptr; }
 
 // isEmpty : Void -> Boolean
 // the list is empty if the head is a null pointer, meaning no elements have been added 
-bool Vertices::isEmpty() { return head == nullptr; }
+bool Vertices::isEmpty() const { return head == nullptr; }
 
 // addNode : String -> Int -> Void
 // Creates a new head of a Vertex object with the given attributes and a pointer to the previous head
@@ -47,10 +50,24 @@ std::string Vertices::peek()
     return isEmpty() ? "\0" : head->name; 
 }
 
+void Vertices::traverse(F action)
+{
+    Vertex * ptr = head;
+    while (ptr != nullptr)
+    {
+        action(ptr->name, ptr->weight);
+        ptr = ptr->next;
+    }
+
+}
+
 // contains : String -> Boolean
 // follow the pointers thru the list and return true if any 'name' attribute matches the given string 
  bool Vertices::contains(std::string key) 
  { 
+    /* traverse([key](std::string name, int wgt) { if (name == key) { return true; } });
+     return false;
+    */
      Vertex * ptr = head;
      while (ptr != nullptr)
      {
@@ -68,13 +85,16 @@ std::string Vertices::peek()
 int Vertices::length()
 {
    int count = 0;
-   Vertex * ptr = head;
+   traverse([count]() mutable { ++count; });
+   return count;
+   /* Vertex * ptr = head;
    while (ptr != nullptr)
    {
        ++count;
        ptr = ptr->next;
    } 
    return count;
+   */
 }
 
 // show : Void -> Void

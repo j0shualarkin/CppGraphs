@@ -1,6 +1,8 @@
+// Joshua Larkin
+// Implementing a linked list called Vertices, whose elements are called Vertex
+
 #include <string>
 #include <iostream>
-/* Basic data structures... */
 
 
 class Vertices
@@ -8,24 +10,13 @@ class Vertices
 private:
     struct Vertex
     {
-        std::string name;
-        int  weight;
-        Vertex * next;
+        std::string name; // A vertex has an identifer
+        int  weight;      // a cost to reach it 
+        Vertex * next;    // and a pointer to another vertex (potentially null)
     };
-
     Vertex * head;  // Each class of Vertices has as pointer to the first element of the list 
-    
-    // makeNode creates a Vertex struct holding the data passed 
-    Vertex* makeNode(std::string name, int weight)
-    {
-        struct Vertex * fresh = (struct Vertex*)malloc(sizeof(struct Vertex));
-        fresh->name   = name;
-        fresh->weight = weight;
-        fresh->next   = nullptr;
-        return fresh;
-    }
    
-public:
+public: // invokable methods on Vertices objects
     Vertices();
     bool isEmpty();
     void addNode(std::string name, int wgt); 
@@ -35,20 +26,29 @@ public:
     void show();
 }; // end class Vertices 
 
+// Constructor for new list of vertices, initially no elements so set head to be a null pointer
 Vertices::Vertices() { head = nullptr; }
 
+// isEmpty : Void -> Boolean
+// the list is empty if the head is a null pointer, meaning no elements have been added 
 bool Vertices::isEmpty() { return head == nullptr; }
- 
+
+// addNode : String -> Int -> Void
+// Creates a new head of a Vertex object with the given attributes and a pointer to the previous head
 void Vertices::addNode(std::string name, int wgt)
 {
     head = new Vertex{ name, wgt, head };
 }
 
+// peek :: Void -> String
+// returns the 'name' attribute of the head node, unless the list is empty then return "\0"
 std::string Vertices::peek() 
 { 
     return isEmpty() ? "\0" : head->name; 
 }
 
+// contains : String -> Boolean
+// follow the pointers thru the list and return true if any 'name' attribute matches the given string 
  bool Vertices::contains(std::string key) 
  { 
      Vertex * ptr = head;
@@ -76,7 +76,9 @@ int Vertices::length()
    } 
    return count;
 }
- 
+
+// show : Void -> Void
+// prints each vertex in the list on its own line
 void Vertices::show()
 {
     Vertex * ptr = head;

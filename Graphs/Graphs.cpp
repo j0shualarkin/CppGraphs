@@ -1,5 +1,6 @@
 // Graphs.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// contains a Graph data structure and algorithms to use
+
 #include "SearchResult.cpp"
 #include <unordered_map>
 
@@ -17,10 +18,8 @@ public:
     void addNode(std::string src);
     Vertices getNeighbors(std::string src);
     int neighborCount(std::string src);
-    Vertices searchDepth(std::string src, std::string dest);
-    SearchResult searchV2(std::string src, std::string dest, Vertices visited, SearchResult resultSoFar);
-    // SearchResult searchDriver(std::string src, std::string dest);
-    SearchResult searchV3(std::string src, std::string dest, Vertices visitedSoFar, SearchResult resultSoFar);
+    SearchResult DFS(std::string src, std::string dest, Vertices visited, SearchResult resultSoFar);
+    SearchResult DFSDriver(std::string src, std::string dest);
 };
 
 // Constructor for Graph class object : contains a pointer to a map from strings to Vertices 
@@ -52,91 +51,59 @@ Vertices Graph::getNeighbors(std::string src)
 }
 
 /* neighborCount : String -> Int
-   returns the amount of neighbors the given node has in the graph */
+   returns the amount of neighbors the given node has in the graph 
+   used mostly on the testing side of _the solution_ */
 int Graph::neighborCount(std::string src)
 {
     return graph[src].length(); // uses the Vertices::length function
 }
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="src"></param>
-/// <param name="dest"></param>
-/// <param name="visitedSoFar"></param>
-/// <param name="resultSoFar"></param>
-/// <returns></returns>
-
-SearchResult Graph::searchV3(std::string src, std::string dest, Vertices visitedSoFar, SearchResult resultSoFar)
+/* DFS : String -> String -> Vertices -> SearchResult -> SearchResult 
+    accumulates a path in the `resultSoFar` and avoid infinite loops with `visitedSoFar`
+    terminates when src == dest or there are no elements adjacent to `src` that lead to `dest`
+*/
+SearchResult Graph::DFS(std::string src, std::string dest, Vertices visitedSoFar, SearchResult resultSoFar)
 {
-    if (src == dest)
+    if (src == dest) /* If we got where we're going*/
     {
-        resultSoFar.addToPath(src, 0);
+        resultSoFar.pathFound(); /* signal that we found the destination */
         return resultSoFar;
     }
     else
     {
-        visitedSoFar.addNode(src, 0);
-    }
-}
-
-Vertices Graph::searchDepth(std::string src, std::string dest)
-{
-    Vertices path = Vertices();
-    if (src == dest)
-    {
-        path.addNode(src, 0);
-    }
-    else
-    {
+        visitedSoFar.addNode(src, 0);           /* don't come here again, 0 is arbitrary since `contains()` only cares about the string*/
         Vertices neighbors = getNeighbors(src);
-        Vertices visited = Vertices();
-        visited.addNode(src,0);        // don't try this place again
-        // path.addNode(src,0);        // don't try this place again
         while (!neighbors.isEmpty())
         {
-            Vertex * nghbr = neighbors.pop();
-            if (!visited.contains(nghbr->name)) 
+            Vertex * nextDoor = neighbors.pop();
+            if (!visitedSoFar.contains(nextDoor->name))   /* don't go where we've been before */
             {
-                std::string nghbrName = nghbr->name;
-                int nghbrWght = nghbr->weight;
-                
-                if (nghbrName == dest)  // have we found it in one step?
-                {
-                    path.addNode(nghbrName, nghbrWght);
-                    return path;
-                }
-                else // this neighbor wasn't it, but maybe they lead to the path
+                SearchResult maybeAns = DFS(nextDoor->name, dest, visitedSoFar, resultSoFar); /* recursion */ 
+                if (maybeAns.getBool()) 
                 { 
-                    visited.addNode(nghbrName, 0);      // don't loop forever!
-                    path.addNode(nghbrName, nghbrWght); // don't forget we came through here
-                    neighbors.append(getNeighbors(nghbrName)); // expand the list of nodes to visit
+                    maybeAns.addToPath(nextDoor->name, nextDoor->weight); /* we can get there from here, so remember this stop */
+                    return maybeAns; 
                 }
-            } 
+            }
         }
+       return resultSoFar; 
     }
-    return path;
 }
 
-/*
-SearchResult Graph::searchDriver(std::string src, std::string dest) 
-{
-    return searchV2(src, dest, Vertices(), SearchResult{ false,Vertices() });
-}
+/* DFSDriver : String -> String -> SearchResult 
+   Prepares the SearchResult passed to `DFS()` by adding the starting node to the path
 */
+SearchResult Graph::DFSDriver(std::string src, std::string dest) 
+{
+    SearchResult resultSoFar = SearchResult();
+    resultSoFar.addToPath(src, 0);  /* Don't forget where you came from */
+    return DFS(src, dest, Vertices(), resultSoFar);  /* Invoke depth-first search algorithm */
+}
+
+
 int main()
 {
-    std::cout << "Hello World! Don't mind me!\n";
-    Graph testGraph = Graph();
-    testGraph.addEdge("Start", "B", 9);
-    testGraph.addEdge("Start", "A", 7);
-    testGraph.addEdge("B", "E", 10);
-    testGraph.addEdge("A", "C", 3);
-    testGraph.addEdge("C", "D", 8);
-    // testGraph.addEdge("D", "E", 5);
-    // SearchResult sr = testGraph.searchDriver("Start", "E");
-    // sr.path.show();
-    std::cout << "=========== end program ===========";
+    // Do nothing...
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

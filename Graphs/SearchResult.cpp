@@ -12,6 +12,8 @@ public:
     void addToPath(std::string src, int wgt);
     void show();
     Vertices getPath();
+    bool getBool();
+    void pathFound();
 };
 
 // Constructor, initial result is false and path is empty
@@ -21,6 +23,7 @@ SearchResult::SearchResult()
     path = Vertices();
 }
 
+void SearchResult::pathFound() { found = true; }
 
 /// <summary>
 /// addToPath : String -> Int -> Void
@@ -40,6 +43,7 @@ void SearchResult::show()
 {
     if (found)
     {
+        std::cout << "Path was found:\n";
         path.show();
     }
     else
@@ -48,7 +52,5 @@ void SearchResult::show()
     }
 }
 
-Vertices SearchResult::getPath()
-{
-    return path;
-}
+Vertices SearchResult::getPath() { return path; }
+bool SearchResult::getBool() { return found;  }

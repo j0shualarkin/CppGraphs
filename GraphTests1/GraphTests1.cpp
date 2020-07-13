@@ -57,6 +57,37 @@ namespace GraphTests1
 			Assert::AreEqual(0, ds1.neighborCount(asylum));
 		}
 
+		TEST_METHOD(StoopidDFS1) 
+		{
+			Graph testGraph = Graph();
+			testGraph.addEdge("Start", "B", 9);
+			testGraph.addEdge("Start", "A", 7);
+			testGraph.addEdge("B", "E", 10);
+			testGraph.addEdge("A", "C", 3);
+			testGraph.addEdge("C", "D", 8);
+			testGraph.addEdge("E", "D", 5);
+			SearchResult test = testGraph.DFSDriver("Start", "E");
+			Assert::IsTrue(test.getBool());
+			Assert::AreEqual(5, test.getPath().length());
+		}
+
+		/* The above and below examples show how DFS can under perform compared to BFS
+			Above, the path follows the line through all nodes to get to E.
+			Below, we can't get to E from D, so we find it by following B.
+			A BFS would do this without exhausting the A side;  proof coming soon!
+		*/
+		TEST_METHOD(StoopidDFS2) 
+		{
+			Graph testGraph = Graph();
+			testGraph.addEdge("Start", "B", 9);
+			testGraph.addEdge("Start", "A", 7);
+			testGraph.addEdge("B", "E", 10);
+			testGraph.addEdge("A", "C", 3);
+			testGraph.addEdge("C", "D", 8);
+			SearchResult test = testGraph.DFSDriver("Start", "E");
+			Assert::IsTrue(test.getBool());
+			Assert::AreEqual(3, test.getPath().length());
+		}
 		TEST_METHOD(DFSTestWithDS)
 		{
 			Graph ds1 = Graph();
@@ -83,8 +114,10 @@ namespace GraphTests1
 			ds1.addEdge(sens, anor, 50);
 		
 			ds1.addNode(asylum);
-			Vertices path = ds1.searchDepth(firelink, sens);
-			Assert::IsTrue(0 < path.length()); // check that there is a path
+			SearchResult res = ds1.DFS(firelink, sens, Vertices(), SearchResult());
+			Assert::IsTrue(res.getBool());
+			Vertices path = res.getPath();
+			Assert::IsTrue(0 < path.length()); 
 		}
 
 		TEST_METHOD(DFSTestWithDS2)
@@ -113,8 +146,9 @@ namespace GraphTests1
 			ds1.addEdge(sens, anor, 50);
 		
 			ds1.addNode(asylum);
-			Vertices path = ds1.searchDepth(firelink, asylum);
-			Assert::IsTrue(0 == path.length()); // check that there is NOT a path
+			
+			SearchResult res = ds1.DFS(firelink, asylum, Vertices(), SearchResult());
+			Assert::IsFalse(res.getBool());
 		}
 
 		TEST_METHOD(AddNodeGivesNoNeighbors)

@@ -26,7 +26,7 @@ public: // invokable methods on Vertices objects
     Vertex * pop();
     void show();
     void append(Vertices vs);
-}; // end class Vertices 
+}; 
 
 // Constructor for new list of vertices, initially no elements so set head to be a null pointer
 Vertices::Vertices() { head = nullptr; }

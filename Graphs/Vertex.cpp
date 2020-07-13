@@ -27,12 +27,32 @@ public: // invokable methods on Vertices objects
     Vertex * pop();
     void show();
     void append(Vertices vs);
+    Vertex * findSmallest();
 }; 
 
 // Constructor for new list of vertices, initially no elements so set head to be a null pointer
 Vertices::Vertices()
 { 
     head = nullptr; 
+}
+
+// findSmallest : Void -> String
+// uses an accumulator to keep track of the node with the lowest weight seen while looking through the list
+Vertex * Vertices::findSmallest()
+{
+    std::string smallestName = "\0";
+    int smallestWeight = INFINITY;
+    Vertex * ptr = head;
+    while (ptr != nullptr)
+    {
+        if (ptr->weight < smallestWeight)
+        {
+            smallestName   = ptr->name;
+            smallestWeight = ptr->weight;
+        }
+        ptr = ptr->next;
+    }
+    return new Vertex{ smallestName, smallestWeight, nullptr };
 }
 
 // isEmpty : Void -> Boolean

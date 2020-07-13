@@ -3,7 +3,7 @@
 
 #include "SearchResult.cpp"
 #include <unordered_map>
-
+#include <algorithm>
 
 class Graph 
 {
@@ -22,6 +22,7 @@ public:
     SearchResult DFSDriver(std::string src, std::string dest);
     SearchResult BFS(std::string src, std::string dest, Vertices visited, SearchResult resultSoFar);
     SearchResult BFSDriver(std::string src, std::string dest);
+    void Dijkstra(std::string src);
 };
 
 // Constructor for Graph class object : contains a pointer to a map from strings to Vertices 
@@ -156,16 +157,104 @@ SearchResult Graph::BFS(std::string src, std::string dest, Vertices visitedSoFar
     }
 }
 
+class DState
+{
+    private:
+        int  distance;
+        bool permanent;
+    public: 
+        DState();
+        int getDist();
+        void updateDist(int amt);
+        void markStart();
+        bool isTemporary();
+        void setPermanent();
+};
+
+DState::DState()
+{
+    distance = INFINITY;
+    permanent = false;
+}
+
+void DState::setPermanent() { permanent = true; }
+int DState::getDist() { return distance; }
+void DState::updateDist(int amt) { distance = std::min(distance, amt); }
+bool DState::isTemporary() { return !permanent; } 
+
+void DState::markStart()
+{
+    distance = 0;
+    permanent = true;
+}
+
+
+void Graph::Dijkstra(std::string src)
+{
+    // vertexStates is used to hold the information used by Dijkstra's algorithm
+    std::unordered_map<std::string, DState> vertexStates =
+        std::unordered_map<std::string, DState>{};
+   
+    // Initialization process
+    for (auto pair : graph)
+    {
+        /* initialize all vertices to have infinite distance and label temporary  */
+        vertexStates[pair.first] = DState();
+        if (pair.first == src)
+        {  /* starting node gets labeled permanent and has distance of 0*/
+            vertexStates[pair.first].markStart(); 
+        }
+    }
+
+    std::string current = src;
+    
+    Vertices reachable = getNeighbors(current);
+    Vertices frontier = Vertices();
+
+    Vertices visited = Vertices();
+    Vertices queue = Vertices();
+    queue.enqueue(current, 0);
+    
+    while (!queue.isEmpty()) 
+    {
+        Vertex * currentVertex = queue.pop();
+        Vertices reachable = getNeighbors(currentVertex->name);
+        while (!reachable.isEmpty())
+        {
+            Vertex * nextDoor = reachable.pop();
+            DState nextDoorState = vertexStates[nextDoor->name];
+            if (nextDoorState.isTemporary())
+            {
+                int newDist = nextDoor->weight + vertexStates[currentVertex->name].getDist();
+                nextDoorState.updateDist(newDist);
+                // frontier.addNode(nextDoor->name, newDist);
+                Vertex * smallest = frontier.findSmallest();
+                vertexStates[smallest->name].setPermanent();
+                queue.enqueue(smallest->name, smallest->weight);
+                // reachable.append(getNeighbors(current));
+            }
+        }
+        // might need to consider if we've visited the node before?
+    }
+    
+    // if all reachable nodes are permanent, stop
+    // if we can't reach any temp node from current, done AND change all temp to permanent
+   
+}
+
 int main()
 {
     Graph test = Graph();
-    test.addEdge("Start", "A", 7);
-	test.addEdge("Start", "B", 9);
-    test.addEdge("B", "E", 10);
-    test.addEdge("A", "C", 3);
-    test.addEdge("C", "D", 8);
-    test.addEdge("D", "E", 5);
-    SearchResult res = test.BFSDriver("Start", "E");
+    test.addEdge("1", "6", 14);
+	test.addEdge("1", "3", 9);
+    test.addEdge("1", "2", 7);
+    test.addEdge("2", "3", 10);
+    test.addEdge("2", "4", 15);
+    test.addEdge("3", "6", 2);
+    test.addEdge("3", "4", 11);
+    test.addEdge("4", "5", 6);
+    test.addEdge("6", "5", 9);
+    SearchResult res = test.BFSDriver("1", "5");
     res.show();
 }
 

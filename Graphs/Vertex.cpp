@@ -15,11 +15,13 @@ class Vertices
 {
 private:
     Vertex * head;  // Each class of Vertices has as pointer to the first element of the list 
+    Vertex * tail;
    
 public: // invokable methods on Vertices objects
     Vertices();
     bool isEmpty();
     void addNode(std::string name, int wgt); 
+    void enqueue(std::string name, int wgt);
     std::string peek(); 
     bool contains(std::string key); 
     int length();
@@ -29,7 +31,11 @@ public: // invokable methods on Vertices objects
 }; 
 
 // Constructor for new list of vertices, initially no elements so set head to be a null pointer
-Vertices::Vertices() { head = nullptr; }
+Vertices::Vertices()
+{ 
+    head = nullptr; 
+    tail = nullptr;
+}
 
 // isEmpty : Void -> Boolean
 // the list is empty if the head is a null pointer, meaning no elements have been added 
@@ -48,7 +54,40 @@ Vertex * Vertices::pop()
 // Creates a new head of a Vertex object with the given attributes and a pointer to the previous head
 void Vertices::addNode(std::string name, int wgt)
 {
-    head = new Vertex{ name, wgt, head };
+    if (head == nullptr && tail == nullptr)
+    {  /* when both null, both point to single element */
+        head = new Vertex{ name, wgt, nullptr };
+        tail = head; 
+    }
+    else if (head == tail)
+    {   /* list is of size 1 in this case */
+        head = new Vertex{ name, wgt, tail };  /* so new element points to the only element */
+    }
+    else 
+    {   /* now head just grows on top of head */
+        head = new Vertex{ name, wgt, head };
+    }
+}
+
+void Vertices::enqueue(std::string name, int wgt)
+{
+    if (head == nullptr && tail == nullptr)
+    {  /* when both null, both point to single element */
+        head = new Vertex{ name, wgt, nullptr };
+        tail = head; 
+    }
+    else if (head == tail)
+    {
+        Vertex * temp = head;
+        tail = new Vertex{ name, wgt, nullptr };
+        head = new Vertex{ temp->name, temp->weight, tail };
+    }
+    else
+    { 
+        // Vertex * temp = tail;
+        // tail->next = temp;
+        tail = new Vertex{ name, wgt, nullptr };
+    }
 }
 
 // append : Vertices -> Void

@@ -10,6 +10,38 @@ namespace VertexTest1
 	{
 	public:
 
+		TEST_METHOD(EnqueueAndLength)
+		{
+			Vertices test = Vertices();
+			test.enqueue("Pixel", 1);
+			Assert::AreEqual(1, test.length());
+		}
+
+
+		TEST_METHOD(EnqueueAndLength2)
+		{
+			Vertices test = Vertices();
+			test.addNode("Pixel", 1);
+			test.addNode("XL", 1);
+			test.enqueue("Telephone", 1);
+			Assert::AreEqual(3, test.length());
+		}
+
+		TEST_METHOD(EnqueueAndPop)
+		{
+			Vertices test = Vertices();
+			test.addNode("Pixel", 1);
+			test.addNode("XL", 1);
+			test.enqueue("Telephone", 1);
+			int count = 0;
+			while (!test.isEmpty())
+			{
+				Vertex * elt = test.pop();
+				++count;
+			}
+			Assert::AreEqual(3, count);
+		}
+
 		TEST_METHOD(Sanity)
 		{
 			Vertices test = Vertices();

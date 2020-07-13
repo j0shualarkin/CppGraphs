@@ -116,7 +116,16 @@ SearchResult Graph::BFSDriver(std::string src, std::string dest)
 
 SearchResult Graph::BFS(std::string src, std::string dest, Vertices visitedSoFar, SearchResult resultSoFar)
 {
+    if (src == dest)
+    {
+        resultSoFar.pathFound();
+        return resultSoFar;
+    }
+    else 
+    {
+        Vertices frontier = getNeighbors(src);
 
+    }
 }
 
 int main()

@@ -10,6 +10,16 @@ namespace VertexTest1
 	{
 	public:
 
+		TEST_METHOD(Sanity)
+		{
+			Vertices test = Vertices();
+			while (!test.isEmpty())
+			{
+				Vertex * elt = test.pop();
+			}
+			Assert::AreEqual(1, 1);
+		}
+
 		TEST_METHOD(Append1) 
 		{
 			Vertices as = Vertices();

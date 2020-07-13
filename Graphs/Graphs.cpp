@@ -114,6 +114,15 @@ SearchResult Graph::BFSDriver(std::string src, std::string dest)
     return BFS(src, dest, Vertices(), resultSoFar);  /* Invoke depth-first search algorithm */
 }
 
+
+// BFS  : String -> String -> Vertices -> SearchResult -> SearchResult
+// uses a queue of nodes called `frontier` to search through 
+// currently doesn't construct the correct path found, but does do BFS and searches correctly
+//   this worked nicely in DFS because we could 'backtrack' with the recursion, but here we need
+//   a way to annotate where a node came from when putting it into the frontier.
+//     so it is convenient for frontier to be a list of vertices,
+//     but perhaps a different data-structure is needed;
+//   or a new approach in total
 SearchResult Graph::BFS(std::string src, std::string dest, Vertices visitedSoFar, SearchResult resultSoFar)
 {
     if (src == dest)
@@ -124,13 +133,40 @@ SearchResult Graph::BFS(std::string src, std::string dest, Vertices visitedSoFar
     else 
     {
         Vertices frontier = getNeighbors(src);
-
+        visitedSoFar.addNode(src, 0);
+        while (!frontier.isEmpty())
+        {
+            Vertex * node = frontier.pop();
+            if (!visitedSoFar.contains(node->name)) /* don't do the same thing twice */
+            {
+                if (node->name == dest) // we found it!
+                {
+                    resultSoFar.addToPath(node->name, node->weight);
+                    resultSoFar.pathFound();
+                    return resultSoFar;
+                }
+                else
+                { 
+                    Vertices nearBy = getNeighbors(node->name);
+                    frontier.append(nearBy);
+                }
+            }
+        }
+        return resultSoFar;
     }
 }
 
 int main()
 {
-    // Do nothing...
+    Graph test = Graph();
+    test.addEdge("Start", "A", 7);
+	test.addEdge("Start", "B", 9);
+    test.addEdge("B", "E", 10);
+    test.addEdge("A", "C", 3);
+    test.addEdge("C", "D", 8);
+    test.addEdge("D", "E", 5);
+    SearchResult res = test.BFSDriver("Start", "E");
+    res.show();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

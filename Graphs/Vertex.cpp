@@ -15,7 +15,6 @@ class Vertices
 {
 private:
     Vertex * head;  // Each class of Vertices has as pointer to the first element of the list 
-    Vertex * tail;
    
 public: // invokable methods on Vertices objects
     Vertices();
@@ -34,7 +33,6 @@ public: // invokable methods on Vertices objects
 Vertices::Vertices()
 { 
     head = nullptr; 
-    tail = nullptr;
 }
 
 // isEmpty : Void -> Boolean
@@ -54,39 +52,25 @@ Vertex * Vertices::pop()
 // Creates a new head of a Vertex object with the given attributes and a pointer to the previous head
 void Vertices::addNode(std::string name, int wgt)
 {
-    if (head == nullptr && tail == nullptr)
-    {  /* when both null, both point to single element */
-        head = new Vertex{ name, wgt, nullptr };
-        tail = head; 
-    }
-    else if (head == tail)
-    {   /* list is of size 1 in this case */
-        head = new Vertex{ name, wgt, tail };  /* so new element points to the only element */
-    }
-    else 
-    {   /* now head just grows on top of head */
-        head = new Vertex{ name, wgt, head };
-    }
+    head = new Vertex{ name, wgt, head };
 }
 
+// enqueue : String -> Int -> Void
+// Creates a new Vertex node and inserts it at the end of the current list of Vertices
 void Vertices::enqueue(std::string name, int wgt)
 {
-    if (head == nullptr && tail == nullptr)
-    {  /* when both null, both point to single element */
-        head = new Vertex{ name, wgt, nullptr };
-        tail = head; 
-    }
-    else if (head == tail)
+    if (head == nullptr)
     {
-        Vertex * temp = head;
-        tail = new Vertex{ name, wgt, nullptr };
-        head = new Vertex{ temp->name, temp->weight, tail };
+        addNode(name, wgt);
     }
-    else
-    { 
-        // Vertex * temp = tail;
-        // tail->next = temp;
-        tail = new Vertex{ name, wgt, nullptr };
+    else 
+    {
+        Vertex * tmp = head;
+        while (tmp->next != nullptr)
+        {
+            tmp = tmp->next;
+        }
+        tmp->next = new Vertex{ name, wgt, nullptr };
     }
 }
 
@@ -97,7 +81,7 @@ void Vertices::append(Vertices vs)
     while (!vs.isEmpty())
     {
         Vertex * v = vs.pop();
-        addNode(v->name, v->weight);
+        enqueue(v->name, v->weight);
     }
 }
 

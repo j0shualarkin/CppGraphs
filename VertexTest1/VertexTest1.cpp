@@ -27,6 +27,28 @@ namespace VertexTest1
 			Assert::AreEqual(3, test.length());
 		}
 
+		TEST_METHOD(EnqueueAndLength3)
+		{
+			Vertices test = Vertices();
+			test.enqueue("Pixel", 1);
+			test.enqueue("XL", 1);
+			test.enqueue("Telephone", 1);
+			Assert::AreEqual(3, test.length());
+		}
+
+		TEST_METHOD(EnqueueAndPop2)
+		{
+			Vertices test = Vertices();
+			std::string pixel = "Pixel";
+			std::string xl = "XL";
+			test.enqueue("Pixel", 1);
+			test.enqueue("XL", 1);
+			Vertex* pop1 = test.pop();
+			Assert::AreEqual(pixel, pop1->name);
+			Vertex* pop2 = test.pop();
+			Assert::AreEqual(xl, pop2->name);
+		}
+
 		TEST_METHOD(EnqueueAndPop)
 		{
 			Vertices test = Vertices();
@@ -41,6 +63,7 @@ namespace VertexTest1
 			}
 			Assert::AreEqual(3, count);
 		}
+
 
 		TEST_METHOD(Sanity)
 		{
@@ -81,10 +104,10 @@ namespace VertexTest1
 			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
 			bs.addNode(pear, 78);
 			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
-			Vertex * peachHuh = as.pop();
-			Vertex * pearHuh = as.pop();
 			Vertex * bananaHuh = as.pop();
 			Vertex * appleHuh = as.pop();
+			Vertex * peachHuh = as.pop();
+			Vertex * pearHuh = as.pop();
 			Assert::AreEqual(0, as.length());
 		}
 
@@ -101,10 +124,10 @@ namespace VertexTest1
 			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
 			bs.addNode(pear, 78);
 			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
-			Vertex* peachHuh = as.pop();
-			Vertex* pearHuh = as.pop();
 			Vertex* bananaHuh = as.pop();
 			Vertex* appleHuh = as.pop();
+			Vertex* pearHuh = as.pop();
+			Vertex* peachHuh = as.pop();
 			Assert::AreEqual(peach, peachHuh->name);
 			Assert::AreEqual(56, peachHuh->weight);
 		}
@@ -122,10 +145,10 @@ namespace VertexTest1
 			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
 			bs.addNode(pear, 78);
 			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
-			Vertex* peachHuh = as.pop();
-			Vertex* pearHuh = as.pop();
 			Vertex* bananaHuh = as.pop();
 			Vertex* appleHuh = as.pop();
+			Vertex* pearHuh = as.pop();
+			Vertex* peachHuh = as.pop();
 			Assert::AreEqual(pear, pearHuh->name);
 			Assert::AreEqual(78, pearHuh->weight);
 		}
@@ -144,10 +167,10 @@ namespace VertexTest1
 			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
 			bs.addNode(pear, 78);
 			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
-			Vertex* peachHuh = as.pop();
-			Vertex* pearHuh = as.pop();
 			Vertex* bananaHuh = as.pop();
 			Vertex* appleHuh = as.pop();
+			Vertex* pearHuh = as.pop();
+			Vertex* peachHuh = as.pop();
 			Assert::AreEqual(apple, appleHuh->name);
 			Assert::AreEqual(12, appleHuh->weight);
 		}
@@ -165,10 +188,10 @@ namespace VertexTest1
 			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
 			bs.addNode(pear, 78);
 			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
-			Vertex* peachHuh = as.pop();
-			Vertex* pearHuh = as.pop();
 			Vertex* bananaHuh = as.pop();
 			Vertex* appleHuh = as.pop();
+			Vertex* peachHuh = as.pop();
+			Vertex* pearHuh = as.pop();
 			Assert::AreEqual(banana, bananaHuh->name);
 			Assert::AreEqual(34, bananaHuh->weight);
 		}

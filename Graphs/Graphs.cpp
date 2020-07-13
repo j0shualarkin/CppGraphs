@@ -1,16 +1,8 @@
 // Graphs.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
-#include "Vertex.cpp"
-#include <iostream>
+#include "SearchResult.cpp"
 #include <unordered_map>
-#include <string>
 
-struct SearchResult
-{
-    bool found;
-    Vertices path;
-};
 
 class Graph 
 {
@@ -27,7 +19,8 @@ public:
     int neighborCount(std::string src);
     Vertices searchDepth(std::string src, std::string dest);
     SearchResult searchV2(std::string src, std::string dest, Vertices visited, SearchResult resultSoFar);
-    SearchResult searchDriver(std::string src, std::string dest);
+    // SearchResult searchDriver(std::string src, std::string dest);
+    SearchResult searchV3(std::string src, std::string dest, Vertices visitedSoFar, SearchResult resultSoFar);
 };
 
 // Constructor for Graph class object : contains a pointer to a map from strings to Vertices 
@@ -65,6 +58,28 @@ int Graph::neighborCount(std::string src)
     return graph[src].length(); // uses the Vertices::length function
 }
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="src"></param>
+/// <param name="dest"></param>
+/// <param name="visitedSoFar"></param>
+/// <param name="resultSoFar"></param>
+/// <returns></returns>
+
+SearchResult Graph::searchV3(std::string src, std::string dest, Vertices visitedSoFar, SearchResult resultSoFar)
+{
+    if (src == dest)
+    {
+        resultSoFar.addToPath(src, 0);
+        return resultSoFar;
+    }
+    else
+    {
+        visitedSoFar.addNode(src, 0);
+    }
+}
+
 Vertices Graph::searchDepth(std::string src, std::string dest)
 {
     Vertices path = Vertices();
@@ -77,7 +92,7 @@ Vertices Graph::searchDepth(std::string src, std::string dest)
         Vertices neighbors = getNeighbors(src);
         Vertices visited = Vertices();
         visited.addNode(src,0);        // don't try this place again
-        path.addNode(src,0);        // don't try this place again
+        // path.addNode(src,0);        // don't try this place again
         while (!neighbors.isEmpty())
         {
             Vertex * nghbr = neighbors.pop();
@@ -103,56 +118,12 @@ Vertices Graph::searchDepth(std::string src, std::string dest)
     return path;
 }
 
-SearchResult updateSearchResultPath(SearchResult res, std::string nodeName, int nodeWgt) 
-{
-    Vertices pathSoFar = res.path;
-    pathSoFar.addNode(nodeName, nodeWgt);
-    res.path = pathSoFar;
-    return res;
-}
-
-SearchResult returnFoundResult(SearchResult resultSoFar, std::string name, int weight)
-{ 
-    resultSoFar.found = true;
-    return updateSearchResultPath(resultSoFar, name, weight);
-}
-
+/*
 SearchResult Graph::searchDriver(std::string src, std::string dest) 
 {
     return searchV2(src, dest, Vertices(), SearchResult{ false,Vertices() });
 }
-
-SearchResult Graph::searchV2(std::string src, std::string dest, Vertices visited, SearchResult resultSoFar) 
-{
-    if (src == dest)
-    {
-        return returnFoundResult(resultSoFar, src, 0);
-    }
-    else 
-    {
-        Vertices neighbors = getNeighbors(src);
-        visited.addNode(src,0);
-        while (!neighbors.isEmpty())
-        {
-            Vertex * neighbor = neighbors.pop();
-            SearchResult followNeighbor = updateSearchResultPath(resultSoFar, neighbor->name, neighbor->weight);
-            SearchResult recur = searchV2(neighbor->name, dest, visited, followNeighbor);
-            if (recur.found)
-            {
-                return recur;
-            }
-            else 
-            {
-                if (!visited.contains(neighbor->name))
-                {
-                    neighbors.append(getNeighbors(neighbor->name));
-                    visited.addNode(neighbor->name,neighbor->weight);
-                }
-            }
-        }
-    }
-}
-
+*/
 int main()
 {
     std::cout << "Hello World! Don't mind me!\n";
@@ -163,8 +134,8 @@ int main()
     testGraph.addEdge("A", "C", 3);
     testGraph.addEdge("C", "D", 8);
     // testGraph.addEdge("D", "E", 5);
-    SearchResult sr = testGraph.searchDriver("Start", "E");
-    sr.path.show();
+    // SearchResult sr = testGraph.searchDriver("Start", "E");
+    // sr.path.show();
     std::cout << "=========== end program ===========";
 }
 

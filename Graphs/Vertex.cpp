@@ -20,7 +20,7 @@ public: // invokable methods on Vertices objects
     Vertices();
     bool isEmpty();
     void addNode(std::string name, int wgt); 
-    std::string peek();
+    std::string peek(); 
     bool contains(std::string key); 
     int length();
     Vertex * pop();
@@ -51,6 +51,8 @@ void Vertices::addNode(std::string name, int wgt)
     head = new Vertex{ name, wgt, head };
 }
 
+// append : Vertices -> Void
+// adds each of the vertex in the given list to the calling object's vertices
 void Vertices::append(Vertices vs) 
 {
     while (!vs.isEmpty())

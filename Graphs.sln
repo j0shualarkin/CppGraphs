@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphs", "Graphs\Graphs.vcxproj", "{E4B3DA50-4601-4110-B9A3-D5CCE838FF8B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphTests1", "GraphTests1\GraphTests1.vcxproj", "{483C03FF-9E04-4AD4-A611-D611735EFD68}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphTesting", "GraphTests1\GraphTests1.vcxproj", "{483C03FF-9E04-4AD4-A611-D611735EFD68}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VertexTest1", "VertexTest1\VertexTest1.vcxproj", "{757548DE-2EC9-4D50-9396-5E6E975C327D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VertexTesting", "VertexTest1\VertexTest1.vcxproj", "{757548DE-2EC9-4D50-9396-5E6E975C327D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SearchResultTesting", "SearchResultTesting\SearchResultTesting.vcxproj", "{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,14 @@ Global
 		{757548DE-2EC9-4D50-9396-5E6E975C327D}.Release|x64.Build.0 = Release|x64
 		{757548DE-2EC9-4D50-9396-5E6E975C327D}.Release|x86.ActiveCfg = Release|Win32
 		{757548DE-2EC9-4D50-9396-5E6E975C327D}.Release|x86.Build.0 = Release|Win32
+		{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}.Debug|x64.ActiveCfg = Debug|x64
+		{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}.Debug|x64.Build.0 = Debug|x64
+		{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}.Debug|x86.ActiveCfg = Debug|Win32
+		{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}.Debug|x86.Build.0 = Debug|Win32
+		{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}.Release|x64.ActiveCfg = Release|x64
+		{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}.Release|x64.Build.0 = Release|x64
+		{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}.Release|x86.ActiveCfg = Release|Win32
+		{C1C1B57C-C801-49B8-B0E3-7192FA11AD3C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

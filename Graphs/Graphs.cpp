@@ -20,6 +20,8 @@ public:
     int neighborCount(std::string src);
     SearchResult DFS(std::string src, std::string dest, Vertices visited, SearchResult resultSoFar);
     SearchResult DFSDriver(std::string src, std::string dest);
+    SearchResult BFS(std::string src, std::string dest, Vertices visited, SearchResult resultSoFar);
+    SearchResult BFSDriver(std::string src, std::string dest);
 };
 
 // Constructor for Graph class object : contains a pointer to a map from strings to Vertices 
@@ -100,6 +102,22 @@ SearchResult Graph::DFSDriver(std::string src, std::string dest)
     return DFS(src, dest, Vertices(), resultSoFar);  /* Invoke depth-first search algorithm */
 }
 
+/************************************************************************************************************/
+
+/* BFSDriver : String -> String -> SearchResult 
+   Prepares the SearchResult passed to `BFS()` by adding the starting node to the path
+*/
+SearchResult Graph::BFSDriver(std::string src, std::string dest) 
+{
+    SearchResult resultSoFar = SearchResult();
+    resultSoFar.addToPath(src, 0);  /* Don't forget where you came from */
+    return BFS(src, dest, Vertices(), resultSoFar);  /* Invoke depth-first search algorithm */
+}
+
+SearchResult Graph::BFS(std::string src, std::string dest, Vertices visitedSoFar, SearchResult resultSoFar)
+{
+
+}
 
 int main()
 {

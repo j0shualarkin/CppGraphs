@@ -47,12 +47,74 @@ namespace GraphTests1
 			ds1.addEdge(parish, garden, 5);
 
 			ds1.addEdge(sens, anor, 50);
+			ds1.addNode(asylum);
 
 			Assert::AreEqual(5, ds1.neighborCount(firelink));
 			Assert::AreEqual(2, ds1.neighborCount(catacombs));
 			Assert::AreEqual(1, ds1.neighborCount(tomb));
 			Assert::AreEqual(2, ds1.neighborCount(valley));
 			Assert::AreEqual(3, ds1.neighborCount(burg));
+			Assert::AreEqual(0, ds1.neighborCount(asylum));
+		}
+
+		TEST_METHOD(DFSTestWithDS)
+		{
+			Graph ds1 = Graph();
+			ds1.addEdge(firelink, catacombs, 50);
+			ds1.addEdge(firelink, parish, 20);
+			ds1.addEdge(firelink, depths, 30);
+			ds1.addEdge(firelink, londo, 10);
+			ds1.addEdge(firelink, burg, 1);
+
+			ds1.addEdge(burg, parish, 20);
+			ds1.addEdge(burg, depths, 20);
+
+			ds1.addEdge(catacombs, tomb, 15);
+
+			ds1.addEdge(valley, londo, 10);
+			ds1.addEdge(valley, blight, 5);
+
+			ds1.addEdge(londo, garden, 30);
+			ds1.addEdge(depths, blight, 15);
+
+			ds1.addEdge(parish, sens, 2);
+			ds1.addEdge(parish, garden, 5);
+
+			ds1.addEdge(sens, anor, 50);
+		
+			ds1.addNode(asylum);
+			Vertices path = ds1.searchDepth(firelink, sens);
+			Assert::IsTrue(0 < path.length()); // check that there is a path
+		}
+
+		TEST_METHOD(DFSTestWithDS2)
+		{
+			Graph ds1 = Graph();
+			ds1.addEdge(firelink, catacombs, 50);
+			ds1.addEdge(firelink, parish, 20);
+			ds1.addEdge(firelink, depths, 30);
+			ds1.addEdge(firelink, londo, 10);
+			ds1.addEdge(firelink, burg, 1);
+
+			ds1.addEdge(burg, parish, 20);
+			ds1.addEdge(burg, depths, 20);
+
+			ds1.addEdge(catacombs, tomb, 15);
+
+			ds1.addEdge(valley, londo, 10);
+			ds1.addEdge(valley, blight, 5);
+
+			ds1.addEdge(londo, garden, 30);
+			ds1.addEdge(depths, blight, 15);
+
+			ds1.addEdge(parish, sens, 2);
+			ds1.addEdge(parish, garden, 5);
+
+			ds1.addEdge(sens, anor, 50);
+		
+			ds1.addNode(asylum);
+			Vertices path = ds1.searchDepth(firelink, asylum);
+			Assert::IsTrue(0 == path.length()); // check that there is NOT a path
 		}
 
 		TEST_METHOD(AddNodeGivesNoNeighbors)

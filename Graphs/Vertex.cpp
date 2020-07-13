@@ -4,16 +4,16 @@
 #include <string>
 #include <iostream>
 
+struct Vertex
+{
+    std::string name; // A vertex has an identifer
+    int  weight;      // a cost to reach it 
+    Vertex * next;    // and a pointer to another vertex (potentially null)
+};
 
 class Vertices
 {
 private:
-    struct Vertex
-    {
-        std::string name; // A vertex has an identifer
-        int  weight;      // a cost to reach it 
-        Vertex * next;    // and a pointer to another vertex (potentially null)
-    };
     Vertex * head;  // Each class of Vertices has as pointer to the first element of the list 
    
 public: // invokable methods on Vertices objects
@@ -23,7 +23,9 @@ public: // invokable methods on Vertices objects
     std::string peek();
     bool contains(std::string key); 
     int length();
+    Vertex * pop();
     void show();
+    void append(Vertices vs);
 }; // end class Vertices 
 
 // Constructor for new list of vertices, initially no elements so set head to be a null pointer
@@ -33,11 +35,29 @@ Vertices::Vertices() { head = nullptr; }
 // the list is empty if the head is a null pointer, meaning no elements have been added 
 bool Vertices::isEmpty() { return head == nullptr; }
 
+// pop : Void -> Vertex
+// only called on nonempty Vertices, removes head element from list and returns head
+Vertex * Vertices::pop()
+{
+    Vertex * elt = head;
+    head = head->next;
+    return elt;
+}
+
 // addNode : String -> Int -> Void
 // Creates a new head of a Vertex object with the given attributes and a pointer to the previous head
 void Vertices::addNode(std::string name, int wgt)
 {
     head = new Vertex{ name, wgt, head };
+}
+
+void Vertices::append(Vertices vs) 
+{
+    while (!vs.isEmpty())
+    {
+        Vertex * v = vs.pop();
+        addNode(v->name, v->weight);
+    }
 }
 
 // peek :: Void -> String

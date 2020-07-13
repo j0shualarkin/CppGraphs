@@ -12,6 +12,7 @@ typedef std::unordered_map<std::string, Vertices> EdgeMap;
 
 private:
     EdgeMap graph;
+    Vertices searchDepthHelper(std::string src, std::string dest, Vertices visited, Vertices path);
 
 public:
     Graph();
@@ -19,6 +20,7 @@ public:
     void addNode(std::string src);
     Vertices getNeighbors(std::string src);
     int neighborCount(std::string src);
+    Vertices searchDepth(std::string src, std::string dest);
 };
 
 // Constructor for Graph class object : contains a pointer to a map from strings to Vertices 
@@ -49,10 +51,52 @@ Vertices Graph::getNeighbors(std::string src)
     return graph[src];
 }
 
-
+/* neighborCount : String -> Int
+   returns the amount of neighbors the given node has in the graph */
 int Graph::neighborCount(std::string src)
 {
-    return graph[src].length();
+    return graph[src].length(); // uses the Vertices::length function
+}
+
+Vertices Graph::searchDepth(std::string src, std::string dest)
+{
+    Vertices path = Vertices();
+    if (src == dest)
+    {
+        path.addNode(src, 0);
+    }
+    else
+    {
+        Vertices neighbors = getNeighbors(src);
+        Vertices visited = Vertices();
+        visited.addNode(src,0);        // don't try this place again
+        while (!neighbors.isEmpty())
+        {
+            Vertex * nghbr = neighbors.pop();
+            if (!visited.contains(nghbr->name)) 
+            {
+                std::string nghbrName = nghbr->name;
+                int nghbrWght = nghbr->weight;
+                
+                if (nghbrName == dest)  // have we found it in one step?
+                {
+                    path.addNode(nghbrName, nghbrWght);
+                    return path;
+                }
+                else // this neighbor wasn't it, but maybe they lead to the path
+                { 
+                    visited.addNode(nghbrName, 0); // don't loop forever!
+                    neighbors.append(getNeighbors(nghbrName)); // so add this neighbor's neighbors
+
+                    /*  I think below makes it bfs...
+                    Vertices nghbrNeighbors = getNeighbors(nghbrName);
+                    nghbrNeighbors.append(neighbors);  
+                    */
+                }
+            } 
+        }
+    }
+    return path;
 }
 
 int main()

@@ -9,7 +9,189 @@ namespace VertexTest1
 	TEST_CLASS(VertexTest1)
 	{
 	public:
-		
+
+		TEST_METHOD(Append1) 
+		{
+			Vertices as = Vertices();
+			Vertices bs = Vertices();
+			std::string apple = "Apple";
+			std::string banana = "Banana";
+			std::string peach = "Peach";
+			std::string pear = "Pear";
+			as.addNode(apple, 12);
+			as.addNode(banana, 34);
+			bs.addNode(peach, 56);
+			bs.addNode(pear, 78);
+			as.append(bs);
+			Assert::AreEqual(4, as.length());
+		}
+
+		TEST_METHOD(Append2) 
+		{
+			Vertices as = Vertices();
+			Vertices bs = Vertices();
+			std::string apple = "Apple";
+			std::string banana = "Banana";
+			std::string peach = "Peach";
+			std::string pear = "Pear";
+			as.addNode(apple, 12);
+			as.addNode(banana, 34); // as = | banana,34 | apple,12 |
+			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
+			bs.addNode(pear, 78);
+			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
+			Vertex * peachHuh = as.pop();
+			Vertex * pearHuh = as.pop();
+			Vertex * bananaHuh = as.pop();
+			Vertex * appleHuh = as.pop();
+			Assert::AreEqual(0, as.length());
+		}
+
+		TEST_METHOD(Append3)
+		{
+			Vertices as = Vertices();
+			Vertices bs = Vertices();
+			std::string apple = "Apple";
+			std::string banana = "Banana";
+			std::string peach = "Peach";
+			std::string pear = "Pear";
+			as.addNode(apple, 12);
+			as.addNode(banana, 34); // as = | banana,34 | apple,12 |
+			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
+			bs.addNode(pear, 78);
+			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
+			Vertex* peachHuh = as.pop();
+			Vertex* pearHuh = as.pop();
+			Vertex* bananaHuh = as.pop();
+			Vertex* appleHuh = as.pop();
+			Assert::AreEqual(peach, peachHuh->name);
+			Assert::AreEqual(56, peachHuh->weight);
+		}
+
+		TEST_METHOD(Append4)
+		{
+			Vertices as = Vertices();
+			Vertices bs = Vertices();
+			std::string apple = "Apple";
+			std::string banana = "Banana";
+			std::string peach = "Peach";
+			std::string pear = "Pear";
+			as.addNode(apple, 12);
+			as.addNode(banana, 34); // as = | banana,34 | apple,12 |
+			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
+			bs.addNode(pear, 78);
+			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
+			Vertex* peachHuh = as.pop();
+			Vertex* pearHuh = as.pop();
+			Vertex* bananaHuh = as.pop();
+			Vertex* appleHuh = as.pop();
+			Assert::AreEqual(pear, pearHuh->name);
+			Assert::AreEqual(78, pearHuh->weight);
+		}
+
+
+		TEST_METHOD(Append5)
+		{
+			Vertices as = Vertices();
+			Vertices bs = Vertices();
+			std::string apple = "Apple";
+			std::string banana = "Banana";
+			std::string peach = "Peach";
+			std::string pear = "Pear";
+			as.addNode(apple, 12);
+			as.addNode(banana, 34); // as = | banana,34 | apple,12 |
+			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
+			bs.addNode(pear, 78);
+			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
+			Vertex* peachHuh = as.pop();
+			Vertex* pearHuh = as.pop();
+			Vertex* bananaHuh = as.pop();
+			Vertex* appleHuh = as.pop();
+			Assert::AreEqual(apple, appleHuh->name);
+			Assert::AreEqual(12, appleHuh->weight);
+		}
+
+		TEST_METHOD(Append6)
+		{
+			Vertices as = Vertices();
+			Vertices bs = Vertices();
+			std::string apple = "Apple";
+			std::string banana = "Banana";
+			std::string peach = "Peach";
+			std::string pear = "Pear";
+			as.addNode(apple, 12);
+			as.addNode(banana, 34); // as = | banana,34 | apple,12 |
+			bs.addNode(peach, 56); // bs = | pear, 78 | peach, 56 |
+			bs.addNode(pear, 78);
+			as.append(bs); // | peach, 56 | pear, 78 | banana, 34 | apple,12 |
+			Vertex* peachHuh = as.pop();
+			Vertex* pearHuh = as.pop();
+			Vertex* bananaHuh = as.pop();
+			Vertex* appleHuh = as.pop();
+			Assert::AreEqual(banana, bananaHuh->name);
+			Assert::AreEqual(34, bananaHuh->weight);
+		}
+		TEST_METHOD(PopTest1)
+		{
+			Vertices test = Vertices();
+			std::string honey = "Honey";
+			test.addNode(honey, 122);
+			Vertex * a = test.pop();
+			Assert::AreEqual(honey, a->name);
+			Assert::AreEqual(122, a->weight);
+		}
+
+
+		TEST_METHOD(PopTest2)
+		{
+			Vertices test = Vertices();
+			std::string honey = "Honey";
+			test.addNode(honey, 122);
+			Vertex * a = test.pop();
+			Assert::AreEqual(0, test.length());
+		}
+
+
+		TEST_METHOD(PopTest3)
+		{
+			Vertices test = Vertices();
+			std::string honey = "Honey";
+			std::string bbq = "BBQ";
+			test.addNode(honey, 122);
+			test.addNode(bbq, 65);
+			Vertex * a = test.pop();
+			Assert::AreEqual(65, a->weight);
+			Assert::AreEqual(bbq, a->name);
+		}
+
+	
+		TEST_METHOD(PopTest4)
+		{
+			Vertices test = Vertices();
+			std::string honey = "Honey";
+			std::string bbq = "BBQ";
+			test.addNode(honey, 122);
+			test.addNode(bbq, 65);
+			Assert::AreEqual(2, test.length());
+			Vertex * a = test.pop();
+			Assert::AreEqual(1, test.length());
+			Vertex * b = test.pop();
+			Assert::AreEqual(0, test.length());
+		}
+
+		TEST_METHOD(PopTest5)
+		{
+			Vertices test = Vertices();
+			std::string honey = "Honey";
+			std::string bbq = "BBQ";
+			test.addNode(honey, 122);
+			test.addNode(bbq, 65);
+			Vertex * a = test.pop(); // first pop returns the second element added
+			Vertex * b = test.pop(); // second pop returns the first element added 
+			Assert::AreEqual(122, b->weight);
+			Assert::AreEqual(honey, b->name);
+		}
+
+
 		// 1. Make sure isEmpty holds only for a new instance of Vertices
 		TEST_METHOD(IsEmptyTest1)
 		{
